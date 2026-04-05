@@ -406,6 +406,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── KÄNNER NI IGEN ER ─── */}
+      <section style={{ padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "clamp(48px, 7vh, 72px)", paddingBottom: "24px", borderBottom: "1px solid var(--border)" }}>
+            <h2 style={{ fontSize: "clamp(13px, 2vw, 15px)", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Känner ni igen er?
+            </h2>
+            <span style={{ fontSize: "12px", color: "var(--muted)" }}>Allt detta kan automatiseras</span>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: "0" }}>
+            {[
+              { problem: "Vi lägger timmar på att leta i pärmar och gamla mappar", solution: "AI-sökning i era egna dokument och system" },
+              { problem: "Samma rapport byggs om manuellt varje vecka", solution: "Automatiserad rapportering utan manuellt arbete" },
+              { problem: "Kunderna ställer samma frågor om och om igen", solution: "Chatbot som svarar korrekt, dygnet runt" },
+              { problem: "Vår data är utspridd och rörig — svår att använda", solution: "Datastädning och strukturering för vidare analys" },
+              { problem: "Vi copy-pastar information mellan system varje dag", solution: "Automatiserat dataflöde mellan era verktyg" },
+              { problem: "Ny personal måste fråga seniors om allt", solution: "Intern kunskapsbas — AI som kan svara på era rutiner" },
+            ].map((item, i) => (
+              <div key={i} style={{
+                padding: "clamp(24px, 3vw, 36px)",
+                borderBottom: "1px solid var(--border)",
+                borderRight: i % 2 === 0 ? "1px solid var(--border)" : "none",
+              }}>
+                <p style={{ fontSize: "14px", color: "var(--muted)", lineHeight: 1.7, marginBottom: "12px" }}>
+                  &ldquo;{item.problem}&rdquo;
+                </p>
+                <p style={{ fontSize: "13px", color: "var(--accent)", fontWeight: 600, letterSpacing: "0.02em" }}>
+                  → {item.solution}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ paddingTop: "40px", textAlign: "center" }}>
+            <a href="#kontakt" className="link-underline btn-shimmer" style={{
+              display: "inline-flex", alignItems: "center", gap: "10px",
+              padding: "14px 32px", background: "var(--accent)", color: "var(--bg)",
+              fontWeight: 800, fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase",
+            }}>
+              Berätta vad ni kämpar med — vi tar det därifrån →
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ─── OM ─── */}
       <section id="om" style={{
         padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)",
