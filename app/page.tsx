@@ -3,7 +3,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Zap, Search, Database, Bot, BrainCircuit, Layers } from "lucide-react";
 import GlitchIcon from "./components/GlitchIcon";
-import ScrambleText from "./components/ScrambleText";
+const PixelReveal = dynamic(() => import("./components/PixelReveal"), { ssr: false });
 import SpotlightCard from "./components/SpotlightCard";
 import CountUp from "./components/CountUp";
 
@@ -142,19 +142,27 @@ export default function Home() {
             Töreboda, Sverige — AI-konsult
           </p>
 
-          <ScrambleText
-            text={"AI som\nfaktiskt\nanvänds."}
-            delay={350}
-            speed={36}
-            accentWord="faktiskt"
-            style={{
-              fontSize: "clamp(48px, 7.5vw, 112px)",
-              fontWeight: 900,
-              lineHeight: 0.92,
-              letterSpacing: "-0.04em",
-              marginBottom: "clamp(36px, 5vh, 64px)",
-            }}
-          />
+          <div style={{
+            fontSize: "clamp(48px, 7.5vw, 112px)",
+            fontWeight: 900,
+            lineHeight: 0.92,
+            letterSpacing: "-0.04em",
+            marginBottom: "clamp(36px, 5vh, 64px)",
+          }}>
+            <PixelReveal
+              lines={[
+                { text: "AI som", accent: false },
+                { text: "faktiskt", accent: true },
+                { text: "används.", accent: false },
+              ]}
+              fontWeight={900}
+              lineHeight={0.92}
+              letterSpacing={-0.04}
+              delay={300}
+              pixelSize={3}
+              batchPerFrame={80}
+            />
+          </div>
 
           <div className="fade-up fade-up-3" style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
             <p style={{
