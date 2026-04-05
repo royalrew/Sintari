@@ -1,5 +1,11 @@
 "use client";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+import { Zap, Search, Database, Bot, BrainCircuit, Layers } from "lucide-react";
+// Search, Database, Bot used in Om-section; Zap, BrainCircuit, Layers in services
+import GlitchIcon from "./components/GlitchIcon";
+
+const NeuralNet = dynamic(() => import("./components/NeuralNet"), { ssr: false });
 
 export default function Home() {
   const [form, setForm] = useState({ name: "", company: "", email: "", message: "" });
@@ -24,27 +30,36 @@ export default function Home() {
   const services = [
     {
       index: "01",
-      title: "AI-pilot",
-      desc: "Vi identifierar ett manuellt eller repetitivt problem och bygger en proof-of-concept. Ni ser värdet innan ni bestämmer er för mer.",
-      price: "15 000 – 25 000 kr",
-      duration: "2–3 veckor",
-      tags: ["Automatisering", "Processer", "POC"],
+      icon: <Search size={28} strokeWidth={1.5} />,
+      title: "AI-genomlysning",
+      sub: "Börja här — låg risk, direkt värde",
+      desc: "Vi sätter oss in i er verksamhet under en halv dag och levererar en skriftlig rapport: exakt var ni slösar tid idag, vad AI kan lösa och vad det skulle vara värt för er. Ni bestämmer sedan om ni vill gå vidare — ingen bindning.",
+      price: "4 900 kr",
+      duration: "Halvdag + rapport",
+      tags: ["Godkänns utan budgetmöte", "Klar inom en vecka", "Ingen bindning"],
+      highlight: false,
     },
     {
       index: "02",
-      title: "RAG-system",
-      desc: "Era anställda frågar — AI:n svarar från era egna dokument, manualer och rutiner. Slut på att leta och fråga runt.",
-      price: "30 000 – 50 000 kr",
-      duration: "3–6 veckor",
-      tags: ["Dokumentsökning", "Kunskapsbas", "LLM"],
+      icon: <Zap size={28} strokeWidth={1.5} />,
+      title: "AI-pilot",
+      sub: "Bygg en konkret lösning",
+      desc: "Vi tar ett av de problem som genomlysningen identifierade och bygger en färdig lösning — ett verktyg era anställda faktiskt kan använda från dag ett. Fast pris, tydlig leverans, inga överraskningar.",
+      price: "35 000 – 55 000 kr",
+      duration: "2–4 veckor",
+      tags: ["Fast pris", "Redo att använda", "Baseras på genomlysning"],
+      highlight: true,
     },
     {
       index: "03",
-      title: "Datastrukturering",
-      desc: "Rörig data hindrar er från att använda AI. Vi städar, strukturerar och dokumenterar så att informationen kan börja arbeta.",
-      price: "10 000 – 20 000 kr",
-      duration: "1–2 veckor",
-      tags: ["Datakvalitet", "ETL", "Analys"],
+      icon: <BrainCircuit size={28} strokeWidth={1.5} />,
+      title: "Fullt AI-system",
+      sub: "AI som arbetar i hela verksamheten",
+      desc: "En komplett lösning — ett system där era anställda söker i egna dokument, rutiner automatiseras och data hålls strukturerad. Bygger vidare på piloten och skalas upp efter era behov.",
+      price: "75 000 – 120 000 kr",
+      duration: "4–8 veckor",
+      tags: ["Skräddarsytt", "Skalbart", "Långsiktig investering"],
+      highlight: false,
     },
   ];
 
@@ -74,7 +89,7 @@ export default function Home() {
 
         <nav style={{ display: "flex", gap: "36px", fontSize: "13px", color: "var(--muted)" }}>
           {[["Tjänster", "#tjanster"], ["Om", "#om"], ["Kontakt", "#kontakt"]].map(([label, href]) => (
-            <a key={href} href={href}
+            <a key={href} href={href} className="link-underline"
               style={{ transition: "color 0.15s" }}
               onMouseOver={e => e.currentTarget.style.color = "var(--fg)"}
               onMouseOut={e => e.currentTarget.style.color = "var(--muted)"}
@@ -86,7 +101,7 @@ export default function Home() {
           display: "inline-flex", alignItems: "center", gap: "8px",
           padding: "7px 16px",
           fontSize: "12px", fontWeight: 600, letterSpacing: "0.06em",
-          border: "1px solid var(--border)",
+          borderWidth: "1px", borderStyle: "solid", borderColor: "var(--border)",
           transition: "border-color 0.15s, color 0.15s",
         }}
           onMouseOver={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.color = "var(--accent)"; }}
@@ -104,73 +119,129 @@ export default function Home() {
         paddingLeft: "clamp(24px, 5vw, 64px)",
         paddingRight: "clamp(24px, 5vw, 64px)",
         borderBottom: "1px solid var(--border)",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "40px",
+        alignItems: "center",
+        minHeight: "85vh",
       }}>
-        <p className="fade-up fade-up-1" style={{
-          fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase",
-          color: "var(--muted)", marginBottom: "clamp(32px, 5vh, 56px)",
-          display: "flex", alignItems: "center", gap: "10px",
-        }}>
-          <span style={{
-            display: "inline-block", width: "6px", height: "6px",
-            borderRadius: "50%", background: "var(--accent)",
-            boxShadow: "0 0 8px var(--accent)",
-          }} />
-          Töreboda, Sverige — AI-konsult
-        </p>
-
-        <h1 className="fade-up fade-up-2" style={{
-          fontSize: "clamp(52px, 10vw, 128px)",
-          fontWeight: 900,
-          lineHeight: 0.92,
-          letterSpacing: "-0.04em",
-          marginBottom: "clamp(40px, 6vh, 72px)",
-          maxWidth: "14ch",
-        }}>
-          AI som<br />
-          <em style={{ fontStyle: "normal", color: "var(--accent)" }}>faktiskt</em><br />
-          används.
-        </h1>
-
-        <div className="fade-up fade-up-3" style={{
-          display: "flex", alignItems: "flex-start",
-          justifyContent: "space-between", flexWrap: "wrap", gap: "40px",
-        }}>
-          <p style={{
-            fontSize: "clamp(15px, 2vw, 19px)", color: "var(--muted)",
-            maxWidth: "44ch", lineHeight: 1.75,
+        {/* LEFT — text */}
+        <div>
+          <p className="fade-up fade-up-1" style={{
+            fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase",
+            color: "var(--muted)", marginBottom: "clamp(32px, 5vh, 56px)",
+            display: "flex", alignItems: "center", gap: "10px",
           }}>
-            Praktisk AI för svenska industri- och tillverkningsföretag.
-            Inga mångelånga projekt — konkret resultat på 2 till 6 veckor, fast pris.
+            <span style={{
+              display: "inline-block", width: "6px", height: "6px",
+              borderRadius: "50%", background: "var(--accent)",
+              boxShadow: "0 0 8px var(--accent)",
+            }} />
+            Töreboda, Sverige — AI-konsult
           </p>
 
-          <div style={{ display: "flex", gap: "12px", flexShrink: 0 }}>
-            <a href="#kontakt" style={{
-              padding: "14px 28px",
-              background: "var(--accent)", color: "var(--bg)",
-              fontWeight: 800, fontSize: "12px",
-              letterSpacing: "0.08em", textTransform: "uppercase",
-              display: "inline-flex", alignItems: "center", gap: "10px",
-              transition: "opacity 0.15s",
-            }}
-              onMouseOver={e => e.currentTarget.style.opacity = "0.88"}
-              onMouseOut={e => e.currentTarget.style.opacity = "1"}
-            >
-              Gratis rådgivning
-              <span style={{ fontSize: "16px" }}>→</span>
-            </a>
-            <a href="#tjanster" style={{
-              padding: "14px 28px",
-              border: "1px solid var(--border)", color: "var(--fg)",
-              fontWeight: 500, fontSize: "12px",
-              letterSpacing: "0.08em", textTransform: "uppercase",
-              transition: "border-color 0.15s",
-            }}
-              onMouseOver={e => e.currentTarget.style.borderColor = "var(--muted)"}
-              onMouseOut={e => e.currentTarget.style.borderColor = "var(--border)"}
-            >
-              Tjänster
-            </a>
+          <h1 className="fade-up fade-up-2" style={{
+            fontSize: "clamp(48px, 7.5vw, 112px)",
+            fontWeight: 900,
+            lineHeight: 0.92,
+            letterSpacing: "-0.04em",
+            marginBottom: "clamp(36px, 5vh, 64px)",
+          }}>
+            AI som<br />
+            <em style={{ fontStyle: "normal", color: "var(--accent)" }}>faktiskt</em><br />
+            används.
+          </h1>
+
+          <div className="fade-up fade-up-3" style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+            <p style={{
+              fontSize: "clamp(15px, 1.6vw, 18px)", color: "var(--muted)",
+              maxWidth: "40ch", lineHeight: 1.8,
+            }}>
+              Vi hjälper svenska företag spara tid på uppgifter som idag
+              görs manuellt, tar för lång tid eller kräver att folk frågar varandra.
+              Fast pris. Tydlig leverans. Inga konstigheter.
+            </p>
+
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <a href="#kontakt" style={{
+                padding: "14px 28px",
+                background: "var(--accent)", color: "var(--bg)",
+                fontWeight: 800, fontSize: "12px",
+                letterSpacing: "0.08em", textTransform: "uppercase",
+                display: "inline-flex", alignItems: "center", gap: "10px",
+                transition: "opacity 0.15s",
+              }}
+                onMouseOver={e => e.currentTarget.style.opacity = "0.88"}
+                onMouseOut={e => e.currentTarget.style.opacity = "1"}
+              >
+                Gratis rådgivning
+                <span style={{ fontSize: "16px" }}>→</span>
+              </a>
+              <a href="#tjanster" style={{
+                padding: "14px 28px",
+                borderWidth: "1px", borderStyle: "solid", borderColor: "var(--border)",
+                color: "var(--fg)", fontWeight: 500, fontSize: "12px",
+                letterSpacing: "0.08em", textTransform: "uppercase",
+                transition: "border-color 0.15s",
+              }}
+                onMouseOver={e => e.currentTarget.style.borderColor = "var(--muted)"}
+                onMouseOut={e => e.currentTarget.style.borderColor = "var(--border)"}
+              >
+                Tjänster
+              </a>
+            </div>
           </div>
+        </div>
+
+        {/* RIGHT — neural net */}
+        <div className="fade-up fade-up-4" style={{
+          position: "relative",
+          height: "clamp(380px, 55vh, 640px)",
+          borderRadius: "2px",
+          overflow: "hidden",
+        }}>
+          {/* Subtle border glow */}
+          <div style={{
+            position: "absolute", inset: 0,
+            borderWidth: "1px", borderStyle: "solid",
+            borderColor: "rgba(212,245,60,0.12)",
+            borderRadius: "2px",
+            zIndex: 2, pointerEvents: "none",
+          }} />
+          {/* Corner accents */}
+          {[
+            { top: 0, left: 0, borderTop: "1px solid var(--accent)", borderLeft: "1px solid var(--accent)" },
+            { top: 0, right: 0, borderTop: "1px solid var(--accent)", borderRight: "1px solid var(--accent)" },
+            { bottom: 0, left: 0, borderBottom: "1px solid var(--accent)", borderLeft: "1px solid var(--accent)" },
+            { bottom: 0, right: 0, borderBottom: "1px solid var(--accent)", borderRight: "1px solid var(--accent)" },
+          ].map((s, i) => (
+            <div key={i} style={{
+              position: "absolute", width: "20px", height: "20px", zIndex: 3,
+              ...s,
+            }} />
+          ))}
+          {/* Label */}
+          <div style={{
+            position: "absolute", top: "14px", left: "16px", zIndex: 4,
+            fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase",
+            color: "rgba(212,245,60,0.5)",
+          }}>
+            Neural · Live
+          </div>
+          <div style={{
+            position: "absolute", top: "16px", right: "16px", zIndex: 4,
+            display: "flex", alignItems: "center", gap: "6px",
+          }}>
+            <span style={{
+              width: "6px", height: "6px", borderRadius: "50%",
+              background: "var(--accent)",
+              boxShadow: "0 0 6px var(--accent)",
+              display: "inline-block",
+              animation: "pulse 2s ease infinite",
+            }} />
+            <span style={{ fontSize: "9px", letterSpacing: "0.12em", color: "rgba(212,245,60,0.5)", textTransform: "uppercase" }}>Active</span>
+          </div>
+          <NeuralNet />
         </div>
       </section>
 
@@ -197,9 +268,9 @@ export default function Home() {
         borderBottom: "1px solid var(--border)",
       }}>
         {[
-          { value: "2–6", label: "Veckor till leverans" },
+          { value: "4 900 kr", label: "Kom igång från" },
           { value: "Fast", label: "Pris, inga överraskningar" },
-          { value: "3", label: "Fokuserade tjänster" },
+          { value: "3", label: "Tydliga steg" },
           { value: "Lokal", label: "Konsult i Skaraborg" },
         ].map((s, i, arr) => (
           <div key={i} style={{
@@ -231,7 +302,7 @@ export default function Home() {
             letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted)",
           }}>Tjänster</h2>
           <span style={{ fontSize: "12px", color: "var(--muted)", letterSpacing: "0.06em" }}>
-            Tre avgränsade leveranser
+            Tre steg — börja där det känns rätt
           </span>
         </div>
 
@@ -250,32 +321,49 @@ export default function Home() {
                 cursor: "default",
                 transition: "background 0.2s",
                 background: hoveredService === i ? "rgba(212,245,60,0.02)" : "transparent",
+                position: "relative",
               }}
             >
-              <div style={{
-                fontSize: "12px", color: "var(--muted)", paddingTop: "6px",
-                letterSpacing: "0.06em", transition: "color 0.2s",
-                ...(hoveredService === i && { color: "var(--accent)" }),
-              }}>{s.index}</div>
+              {/* Steg 1 accent-linje vänster */}
+              {i === 0 && (
+                <div style={{
+                  position: "absolute", left: 0, top: 0, bottom: 0,
+                  width: "2px", background: "var(--accent)",
+                }} />
+              )}
+
+              <div style={{ paddingTop: "4px" }}>
+                <GlitchIcon size={28}>
+                  {s.icon}
+                </GlitchIcon>
+              </div>
 
               <div>
-                <div style={{ display: "flex", alignItems: "baseline", gap: "24px", marginBottom: "16px", flexWrap: "wrap" }}>
-                  <h3 style={{
-                    fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 800,
-                    letterSpacing: "-0.02em", lineHeight: 1.1,
-                    transition: "color 0.2s",
-                    ...(hoveredService === i && { color: "var(--accent)" }),
-                  }}>{s.title}</h3>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                    {s.tags.map(tag => (
-                      <span key={tag} style={{
-                        fontSize: "11px", padding: "3px 10px",
-                        border: "1px solid var(--border)",
-                        color: "var(--muted)", letterSpacing: "0.06em",
-                        transition: "border-color 0.2s",
-                        ...(hoveredService === i && { borderColor: "rgba(212,245,60,0.3)" }),
-                      }}>{tag}</span>
-                    ))}
+                <div style={{ marginBottom: "12px" }}>
+                  {/* Sub-etikett */}
+                  <p style={{
+                    fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase",
+                    color: i === 0 ? "var(--accent)" : "var(--muted)",
+                    marginBottom: "8px",
+                  }}>{s.sub}</p>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "20px", flexWrap: "wrap" }}>
+                    <h3 style={{
+                      fontSize: "clamp(20px, 2.8vw, 34px)", fontWeight: 800,
+                      letterSpacing: "-0.02em", lineHeight: 1.1,
+                      transition: "color 0.2s",
+                      ...(hoveredService === i && { color: "var(--accent)" }),
+                    }}>{s.title}</h3>
+                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                      {s.tags.map(tag => (
+                        <span key={tag} style={{
+                          fontSize: "11px", padding: "3px 10px",
+                          borderWidth: "1px", borderStyle: "solid",
+                          borderColor: hoveredService === i ? "rgba(212,245,60,0.3)" : "var(--border)",
+                          color: "var(--muted)", letterSpacing: "0.06em",
+                          transition: "border-color 0.2s",
+                        }}>{tag}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <p style={{
@@ -286,16 +374,16 @@ export default function Home() {
 
               <div style={{ textAlign: "right", paddingTop: "6px", flexShrink: 0 }}>
                 <div style={{
-                  fontSize: "clamp(14px, 1.5vw, 17px)", fontWeight: 700,
-                  marginBottom: "4px", whiteSpace: "nowrap",
+                  fontSize: i === 0 ? "clamp(18px, 2vw, 26px)" : "clamp(14px, 1.5vw, 17px)",
+                  fontWeight: 800, marginBottom: "4px", whiteSpace: "nowrap",
+                  color: i === 0 ? "var(--accent)" : "var(--fg)",
                 }}>{s.price}</div>
                 <div style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "20px", whiteSpace: "nowrap" }}>{s.duration}</div>
-                <a href="#kontakt" style={{
+                <a href="#kontakt" className="link-underline" style={{
                   display: "inline-flex", alignItems: "center", gap: "6px",
                   fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase",
-                  color: hoveredService === i ? "var(--accent)" : "var(--muted)",
-                  borderBottom: `1px solid ${hoveredService === i ? "var(--accent)" : "transparent"}`,
-                  paddingBottom: "2px", transition: "color 0.2s, border-color 0.2s",
+                  color: i === 0 ? "var(--accent)" : hoveredService === i ? "var(--accent)" : "var(--muted)",
+                  transition: "color 0.2s",
                 }}>
                   Kom igång <span>→</span>
                 </a>
@@ -332,20 +420,27 @@ export default function Home() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: "24px" }}>
             <p style={{ fontSize: "clamp(14px, 1.6vw, 16px)", color: "var(--muted)", lineHeight: 1.85 }}>
-              Sintari är ett AI-konsultbolag i Töreboda. Vi jobbar inte med mångelånga
-              projekt med osäkert utfall — vi levererar avgränsade lösningar med fast
-              pris och tydlig tidslinje.
+              Sintari är ett AI-konsultbolag i Töreboda. Vi jobbar inte med
+              mångelånga projekt — vi levererar avgränsade lösningar med fast
+              pris och tydlig tidslinje. Ni vet vad ni betalar och vad ni får.
             </p>
             <p style={{ fontSize: "clamp(14px, 1.6vw, 16px)", color: "var(--muted)", lineHeight: 1.85 }}>
-              Vår erfarenhet ligger i RAG-system, datastädning och AI-automatisering —
-              tekniker som fungerar i produktion. Vi riktar oss till industri- och
-              tillverkningsföretag i Skaraborg och hela Sverige.
+              Vi har byggt system som låter anställda söka i företagets egna dokument,
+              rensat upp rörig data och automatiserat tidskrävande manuella moment —
+              för industri- och tillverkningsföretag i Sverige.
             </p>
-            <div style={{ display: "flex", gap: "40px", paddingTop: "16px" }}>
-              {[["RAG", "Retrieval-Augmented Generation"], ["ETL", "Datastrukturering"], ["LLM", "Språkmodeller"]].map(([abbr, full]) => (
-                <div key={abbr}>
-                  <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--fg)", marginBottom: "4px" }}>{abbr}</div>
-                  <div style={{ fontSize: "11px", color: "var(--muted)" }}>{full}</div>
+            <div style={{ display: "flex", gap: "32px", paddingTop: "16px", flexWrap: "wrap" }}>
+              {[
+                ["Dokumentsökning", "AI hittar rätt i era egna filer", <Search size={14} strokeWidth={1.5} key="search" />],
+                ["Dataanalys", "Gör ordning på spridd information", <Database size={14} strokeWidth={1.5} key="db" />],
+                ["Automatisering", "AI tar hand om det repetitiva", <Bot size={14} strokeWidth={1.5} key="bot" />],
+              ].map(([label, desc, icon]) => (
+                <div key={label as string}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+                    <GlitchIcon size={14} color="var(--accent)">{icon}</GlitchIcon>
+                    <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--fg)" }}>{label}</span>
+                  </div>
+                  <div style={{ fontSize: "11px", color: "var(--muted)", maxWidth: "16ch" }}>{desc}</div>
                 </div>
               ))}
             </div>
@@ -388,7 +483,7 @@ export default function Home() {
                 <div key={label as string}>
                   <div style={{ fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)", marginBottom: "6px" }}>{label}</div>
                   {href ? (
-                    <a href={href as string} style={{ fontSize: "16px", fontWeight: 500, transition: "color 0.15s" }}
+                    <a href={href as string} className="link-underline" style={{ fontSize: "16px", fontWeight: 500, transition: "color 0.15s" }}
                       onMouseOver={e => e.currentTarget.style.color = "var(--accent)"}
                       onMouseOut={e => e.currentTarget.style.color = "var(--fg)"}
                     >{value}</a>
@@ -502,7 +597,7 @@ export default function Home() {
       }}>
         <span style={{ fontWeight: 800, fontSize: "13px", letterSpacing: "0.12em", textTransform: "uppercase" }}>Sintari</span>
         <span style={{ fontSize: "12px", color: "var(--muted)" }}>© 2025 Jimmy Berndtsson · Töreboda</span>
-        <a href="mailto:jimmy@sintari.se" style={{
+        <a href="mailto:jimmy@sintari.se" className="link-underline" style={{
           fontSize: "12px", color: "var(--muted)", transition: "color 0.15s",
         }}
           onMouseOver={e => e.currentTarget.style.color = "var(--fg)"}
