@@ -3,7 +3,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Zap, Search, Database, Bot, BrainCircuit, Layers } from "lucide-react";
 import GlitchIcon from "./components/GlitchIcon";
-import ShinyText from "./components/ShinyText";
+import ScrambleText from "./components/ScrambleText";
 import SpotlightCard from "./components/SpotlightCard";
 import CountUp from "./components/CountUp";
 
@@ -142,17 +142,19 @@ export default function Home() {
             Töreboda, Sverige — AI-konsult
           </p>
 
-          <h1 className="fade-up fade-up-2" style={{
-            fontSize: "clamp(48px, 7.5vw, 112px)",
-            fontWeight: 900,
-            lineHeight: 0.92,
-            letterSpacing: "-0.04em",
-            marginBottom: "clamp(36px, 5vh, 64px)",
-          }}>
-            AI som<br />
-            <ShinyText text="faktiskt" speed={2.5} style={{ fontStyle: "normal", fontSize: "inherit", fontWeight: "inherit", letterSpacing: "inherit", lineHeight: "inherit" }} /><br />
-            används.
-          </h1>
+          <ScrambleText
+            text={"AI som\nfaktiskt\nanvänds."}
+            delay={350}
+            speed={36}
+            accentWord="faktiskt"
+            style={{
+              fontSize: "clamp(48px, 7.5vw, 112px)",
+              fontWeight: 900,
+              lineHeight: 0.92,
+              letterSpacing: "-0.04em",
+              marginBottom: "clamp(36px, 5vh, 64px)",
+            }}
+          />
 
           <div className="fade-up fade-up-3" style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
             <p style={{
