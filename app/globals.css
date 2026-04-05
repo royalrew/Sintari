@@ -23,16 +23,24 @@ html {
 
 body {
   font-family: var(--font);
-  background-color: var(--bg);
-  background-image:
-    linear-gradient(rgba(212, 245, 60, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 245, 60, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background: var(--bg);
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212, 245, 60, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 245, 60, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
 }
 
 ::selection {
@@ -83,6 +91,7 @@ button {
 .btn-shimmer {
   position: relative;
   overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
 }
 
 .btn-shimmer::after {

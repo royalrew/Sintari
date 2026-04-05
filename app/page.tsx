@@ -307,7 +307,14 @@ export default function Home() {
       <section id="tjanster" style={{
         padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)",
         borderBottom: "1px solid var(--border)",
+        position: "relative",
       }}>
+        {/* Accent-linje för steg 1 — monterad på sektionsnivå */}
+        <div style={{
+          position: "absolute", left: 0, top: 0, bottom: 0,
+          width: "3px", background: "var(--accent)",
+          opacity: 0.8,
+        }} />
         <div style={{
           display: "flex", alignItems: "baseline", justifyContent: "space-between",
           marginBottom: "clamp(48px, 7vh, 80px)",
@@ -337,13 +344,6 @@ export default function Home() {
                 cursor: "default",
               }}
             >
-              {/* Steg 1 accent-linje vänster */}
-              {i === 0 && (
-                <div style={{
-                  position: "absolute", left: 0, top: 0, bottom: 0,
-                  width: "2px", background: "var(--accent)",
-                }} />
-              )}
 
               <div style={{ paddingTop: "4px" }}>
                 <GlitchIcon size={28}>
