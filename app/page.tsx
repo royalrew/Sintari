@@ -2,8 +2,10 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Zap, Search, Database, Bot, BrainCircuit, Layers } from "lucide-react";
-// Search, Database, Bot used in Om-section; Zap, BrainCircuit, Layers in services
 import GlitchIcon from "./components/GlitchIcon";
+import ShinyText from "./components/ShinyText";
+import SpotlightCard from "./components/SpotlightCard";
+import CountUp from "./components/CountUp";
 
 const NeuralNet = dynamic(() => import("./components/NeuralNet"), { ssr: false });
 
@@ -97,7 +99,7 @@ export default function Home() {
           ))}
         </nav>
 
-        <a href="#kontakt" style={{
+        <a href="#kontakt" className="btn-shimmer" style={{
           display: "inline-flex", alignItems: "center", gap: "8px",
           padding: "7px 16px",
           fontSize: "12px", fontWeight: 600, letterSpacing: "0.06em",
@@ -148,7 +150,7 @@ export default function Home() {
             marginBottom: "clamp(36px, 5vh, 64px)",
           }}>
             AI som<br />
-            <em style={{ fontStyle: "normal", color: "var(--accent)" }}>faktiskt</em><br />
+            <ShinyText text="faktiskt" speed={2.5} style={{ fontStyle: "normal", fontSize: "inherit", fontWeight: "inherit", letterSpacing: "inherit", lineHeight: "inherit" }} /><br />
             används.
           </h1>
 
@@ -163,7 +165,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <a href="#kontakt" style={{
+              <a href="#kontakt" className="btn-shimmer" style={{
                 padding: "14px 28px",
                 background: "var(--accent)", color: "var(--bg)",
                 fontWeight: 800, fontSize: "12px",
@@ -268,10 +270,10 @@ export default function Home() {
         borderBottom: "1px solid var(--border)",
       }}>
         {[
-          { value: "4 900 kr", label: "Kom igång från" },
-          { value: "Fast", label: "Pris, inga överraskningar" },
-          { value: "3", label: "Tydliga steg" },
-          { value: "Lokal", label: "Konsult i Skaraborg" },
+          { countTo: 4900, prefix: "", suffix: " kr", label: "Kom igång från", text: null },
+          { countTo: null, prefix: "", suffix: "", label: "Pris, inga överraskningar", text: "Fast" },
+          { countTo: 3, prefix: "", suffix: "", label: "Tydliga steg", text: null },
+          { countTo: null, prefix: "", suffix: "", label: "Konsult i Skaraborg", text: "Lokal" },
         ].map((s, i, arr) => (
           <div key={i} style={{
             padding: "clamp(28px, 4vw, 48px) clamp(24px, 3vw, 40px)",
@@ -281,7 +283,11 @@ export default function Home() {
               fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900,
               letterSpacing: "-0.03em", color: "var(--fg)", lineHeight: 1,
               marginBottom: "8px",
-            }}>{s.value}</div>
+            }}>
+              {s.countTo !== null
+                ? <CountUp end={s.countTo} prefix={s.prefix} suffix={s.suffix} />
+                : s.text}
+            </div>
             <div style={{ fontSize: "12px", color: "var(--muted)", letterSpacing: "0.04em" }}>{s.label}</div>
           </div>
         ))}
@@ -308,7 +314,7 @@ export default function Home() {
 
         <div>
           {services.map((s, i) => (
-            <div
+            <SpotlightCard
               key={i}
               onMouseEnter={() => setHoveredService(i)}
               onMouseLeave={() => setHoveredService(null)}
@@ -319,9 +325,6 @@ export default function Home() {
                 padding: "clamp(28px, 4vh, 44px) 0",
                 borderBottom: "1px solid var(--border)",
                 cursor: "default",
-                transition: "background 0.2s",
-                background: hoveredService === i ? "rgba(212,245,60,0.02)" : "transparent",
-                position: "relative",
               }}
             >
               {/* Steg 1 accent-linje vänster */}
@@ -388,7 +391,7 @@ export default function Home() {
                   Kom igång <span>→</span>
                 </a>
               </div>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
       </section>
@@ -565,6 +568,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
+                  className="btn-shimmer"
                   style={{
                     marginTop: "32px",
                     display: "inline-flex", alignItems: "center", gap: "12px",
