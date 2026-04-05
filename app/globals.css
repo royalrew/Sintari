@@ -1,16 +1,76 @@
 @import "tailwindcss";
 
-:root {
-  --background: #05050f;
-  --foreground: #e8e8f0;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+:root {
+  --bg: #080808;
+  --fg: #efefef;
+  --muted: #505050;
+  --subtle: #282828;
+  --border: #1a1a1a;
+  --accent: #d4f53c;
+  --font: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font);
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 22s linear infinite;
+}
+
+/* Fade up on load */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.fade-up-1 { animation-delay: 0.05s; opacity: 0; }
+.fade-up-2 { animation-delay: 0.15s; opacity: 0; }
+.fade-up-3 { animation-delay: 0.25s; opacity: 0; }
+.fade-up-4 { animation-delay: 0.35s; opacity: 0; }
+
+/* Input reset */
+input, textarea {
+  font-family: var(--font);
 }

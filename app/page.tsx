@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function Home() {
   const [form, setForm] = useState({ name: "", company: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [hoveredService, setHoveredService] = useState<number | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -14,274 +15,501 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (res.ok) setStatus("sent");
-      else setStatus("error");
+      setStatus(res.ok ? "sent" : "error");
     } catch {
       setStatus("error");
     }
   }
-  return (
-    <main className="min-h-screen" style={{ background: "#05050f", color: "#e8e8f0" }}>
 
-      {/* NAV */}
-      <nav
-        className="flex items-center justify-between px-8 py-5 sticky top-0 z-50"
-        style={{ background: "rgba(5,5,15,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1a1a2e" }}
-      >
-        <span className="text-xl font-bold tracking-tight" style={{ color: "#a78bfa" }}>Sintari</span>
-        <div className="hidden md:flex gap-8 text-sm" style={{ color: "#9ca3af" }}>
-          <a href="#tjanster" className="hover:text-white transition-colors">Tjänster</a>
-          <a href="#om" className="hover:text-white transition-colors">Om oss</a>
-          <a href="#kontakt" className="hover:text-white transition-colors">Kontakt</a>
-        </div>
-        <a
-          href="#kontakt"
-          className="px-5 py-2 rounded-lg text-sm font-medium"
-          style={{ background: "#7c3aed", color: "white" }}
+  const services = [
+    {
+      index: "01",
+      title: "AI-pilot",
+      desc: "Vi identifierar ett manuellt eller repetitivt problem och bygger en proof-of-concept. Ni ser värdet innan ni bestämmer er för mer.",
+      price: "15 000 – 25 000 kr",
+      duration: "2–3 veckor",
+      tags: ["Automatisering", "Processer", "POC"],
+    },
+    {
+      index: "02",
+      title: "RAG-system",
+      desc: "Era anställda frågar — AI:n svarar från era egna dokument, manualer och rutiner. Slut på att leta och fråga runt.",
+      price: "30 000 – 50 000 kr",
+      duration: "3–6 veckor",
+      tags: ["Dokumentsökning", "Kunskapsbas", "LLM"],
+    },
+    {
+      index: "03",
+      title: "Datastrukturering",
+      desc: "Rörig data hindrar er från att använda AI. Vi städar, strukturerar och dokumenterar så att informationen kan börja arbeta.",
+      price: "10 000 – 20 000 kr",
+      duration: "1–2 veckor",
+      tags: ["Datakvalitet", "ETL", "Analys"],
+    },
+  ];
+
+  const marqueeItems = [
+    "Industri", "·", "Tillverkning", "·", "Logistik", "·",
+    "Livsmedel", "·", "Kommuner", "·", "Fastighet", "·",
+    "Industri", "·", "Tillverkning", "·", "Logistik", "·",
+    "Livsmedel", "·", "Kommuner", "·", "Fastighet", "·",
+  ];
+
+  return (
+    <div style={{ background: "var(--bg)", color: "var(--fg)", minHeight: "100vh" }}>
+
+      {/* ─── NAV ─── */}
+      <header style={{
+        position: "fixed", inset: "0 0 auto 0", zIndex: 100,
+        height: "60px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "0 clamp(24px, 5vw, 64px)",
+        borderBottom: "1px solid var(--border)",
+        background: "rgba(8,8,8,0.88)",
+        backdropFilter: "blur(20px) saturate(180%)",
+      }}>
+        <span style={{ fontWeight: 800, fontSize: "14px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          Sintari
+        </span>
+
+        <nav style={{ display: "flex", gap: "36px", fontSize: "13px", color: "var(--muted)" }}>
+          {[["Tjänster", "#tjanster"], ["Om", "#om"], ["Kontakt", "#kontakt"]].map(([label, href]) => (
+            <a key={href} href={href}
+              style={{ transition: "color 0.15s" }}
+              onMouseOver={e => e.currentTarget.style.color = "var(--fg)"}
+              onMouseOut={e => e.currentTarget.style.color = "var(--muted)"}
+            >{label}</a>
+          ))}
+        </nav>
+
+        <a href="#kontakt" style={{
+          display: "inline-flex", alignItems: "center", gap: "8px",
+          padding: "7px 16px",
+          fontSize: "12px", fontWeight: 600, letterSpacing: "0.06em",
+          border: "1px solid var(--border)",
+          transition: "border-color 0.15s, color 0.15s",
+        }}
+          onMouseOver={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.color = "var(--accent)"; }}
+          onMouseOut={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--fg)"; }}
         >
           Boka samtal
+          <span style={{ fontSize: "14px" }}>↗</span>
         </a>
-      </nav>
+      </header>
 
-      {/* HERO */}
-      <section className="flex flex-col items-center justify-center text-center px-6 py-32">
-        <div
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-8"
-          style={{ background: "#1a1a2e", color: "#a78bfa", border: "1px solid #2d2d4e" }}
-        >
-          <span style={{ background: "#7c3aed", borderRadius: "50%", width: 8, height: 8, display: "inline-block" }}></span>
-          AI-konsult för svenska industriföretag
-        </div>
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight max-w-4xl" style={{ letterSpacing: "-0.02em" }}>
-          Spara tid med<br />
-          <span style={{ background: "linear-gradient(135deg, #a78bfa, #7c3aed)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            praktisk AI
-          </span>
+      {/* ─── HERO ─── */}
+      <section style={{
+        paddingTop: "clamp(120px, 18vh, 180px)",
+        paddingBottom: "clamp(80px, 12vh, 140px)",
+        paddingLeft: "clamp(24px, 5vw, 64px)",
+        paddingRight: "clamp(24px, 5vw, 64px)",
+        borderBottom: "1px solid var(--border)",
+      }}>
+        <p className="fade-up fade-up-1" style={{
+          fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase",
+          color: "var(--muted)", marginBottom: "clamp(32px, 5vh, 56px)",
+          display: "flex", alignItems: "center", gap: "10px",
+        }}>
+          <span style={{
+            display: "inline-block", width: "6px", height: "6px",
+            borderRadius: "50%", background: "var(--accent)",
+            boxShadow: "0 0 8px var(--accent)",
+          }} />
+          Töreboda, Sverige — AI-konsult
+        </p>
+
+        <h1 className="fade-up fade-up-2" style={{
+          fontSize: "clamp(52px, 10vw, 128px)",
+          fontWeight: 900,
+          lineHeight: 0.92,
+          letterSpacing: "-0.04em",
+          marginBottom: "clamp(40px, 6vh, 72px)",
+          maxWidth: "14ch",
+        }}>
+          AI som<br />
+          <em style={{ fontStyle: "normal", color: "var(--accent)" }}>faktiskt</em><br />
+          används.
         </h1>
-        <p className="text-xl max-w-2xl mb-10" style={{ color: "#9ca3af", lineHeight: 1.7 }}>
-          Vi hjälper svenska tillverknings- och industriföretag att automatisera manuella processer,
-          strukturera data och bygga smarta söksystem — utan att krångla till det.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <a
-            href="#kontakt"
-            className="px-8 py-4 rounded-xl text-base font-semibold"
-            style={{ background: "#7c3aed", color: "white" }}
-          >
-            Boka gratis rådgivning →
-          </a>
-          <a
-            href="#tjanster"
-            className="px-8 py-4 rounded-xl text-base font-semibold"
-            style={{ background: "#1a1a2e", color: "#e8e8f0", border: "1px solid #2d2d4e" }}
-          >
-            Se våra tjänster
-          </a>
-        </div>
-      </section>
 
-      {/* BRANSCHER */}
-      <section className="py-12 px-6 text-center" style={{ borderTop: "1px solid #1a1a2e", borderBottom: "1px solid #1a1a2e" }}>
-        <p className="text-sm mb-6" style={{ color: "#6b7280" }}>HJÄLPER FÖRETAG I SKARABORG OCH HELA SVERIGE</p>
-        <div className="flex flex-wrap justify-center gap-12" style={{ color: "#4b5563" }}>
-          <span className="text-lg font-semibold">Industri</span>
-          <span className="text-lg font-semibold">Tillverkning</span>
-          <span className="text-lg font-semibold">Logistik</span>
-          <span className="text-lg font-semibold">Kommuner</span>
-          <span className="text-lg font-semibold">Livsmedel</span>
-        </div>
-      </section>
-
-      {/* TJÄNSTER */}
-      <section id="tjanster" className="py-24 px-6 max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Vad vi gör</h2>
-          <p style={{ color: "#9ca3af" }} className="text-lg max-w-xl mx-auto">
-            Tre konkreta tjänster — tydliga leveranser, fasta priser, inga överraskningar.
+        <div className="fade-up fade-up-3" style={{
+          display: "flex", alignItems: "flex-start",
+          justifyContent: "space-between", flexWrap: "wrap", gap: "40px",
+        }}>
+          <p style={{
+            fontSize: "clamp(15px, 2vw, 19px)", color: "var(--muted)",
+            maxWidth: "44ch", lineHeight: 1.75,
+          }}>
+            Praktisk AI för svenska industri- och tillverkningsföretag.
+            Inga mångelånga projekt — konkret resultat på 2 till 6 veckor, fast pris.
           </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
 
-          <div className="rounded-2xl p-8 flex flex-col" style={{ background: "#0d0d1a", border: "1px solid #1a1a2e" }}>
-            <div className="text-3xl mb-4">⚡</div>
-            <h3 className="text-xl font-bold mb-3">AI-pilot</h3>
-            <p style={{ color: "#9ca3af" }} className="mb-6 flex-1 leading-relaxed">
-              Vi identifierar ett manuellt eller repetitivt problem i er verksamhet och bygger en proof-of-concept.
-              Ni ser värdet innan ni bestämmer er för mer.
-            </p>
-            <div className="mt-auto">
-              <div className="text-2xl font-bold mb-1">15 000 – 25 000 kr</div>
-              <div className="text-sm mb-4" style={{ color: "#6b7280" }}>Fast pris · Leverans 2–3 veckor</div>
-              <a
-                href="#kontakt"
-                className="block text-center py-3 rounded-xl text-sm font-medium"
-                style={{ background: "#1a1a2e", color: "#a78bfa", border: "1px solid #2d2d4e" }}
-              >
-                Kom igång →
-              </a>
-            </div>
-          </div>
-
-          <div className="rounded-2xl p-8 flex flex-col relative" style={{ background: "#1a0a2e", border: "2px solid #7c3aed" }}>
-            <div
-              className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-semibold"
-              style={{ background: "#7c3aed", color: "white" }}
+          <div style={{ display: "flex", gap: "12px", flexShrink: 0 }}>
+            <a href="#kontakt" style={{
+              padding: "14px 28px",
+              background: "var(--accent)", color: "var(--bg)",
+              fontWeight: 800, fontSize: "12px",
+              letterSpacing: "0.08em", textTransform: "uppercase",
+              display: "inline-flex", alignItems: "center", gap: "10px",
+              transition: "opacity 0.15s",
+            }}
+              onMouseOver={e => e.currentTarget.style.opacity = "0.88"}
+              onMouseOut={e => e.currentTarget.style.opacity = "1"}
             >
-              POPULÄRAST
-            </div>
-            <div className="text-3xl mb-4">🔍</div>
-            <h3 className="text-xl font-bold mb-3">RAG-system</h3>
-            <p style={{ color: "#9ca3af" }} className="mb-6 flex-1 leading-relaxed">
-              Era anställda ställer frågor — AI:n svarar från era egna dokument, manualer och rutiner.
-              Slut på att leta i mappar och fråga kollegor.
-            </p>
-            <div className="mt-auto">
-              <div className="text-2xl font-bold mb-1">30 000 – 50 000 kr</div>
-              <div className="text-sm mb-4" style={{ color: "#9ca3af" }}>Fast pris · Leverans 3–6 veckor</div>
-              <a
-                href="#kontakt"
-                className="block text-center py-3 rounded-xl text-sm font-medium"
-                style={{ background: "#7c3aed", color: "white" }}
-              >
-                Kom igång →
-              </a>
-            </div>
+              Gratis rådgivning
+              <span style={{ fontSize: "16px" }}>→</span>
+            </a>
+            <a href="#tjanster" style={{
+              padding: "14px 28px",
+              border: "1px solid var(--border)", color: "var(--fg)",
+              fontWeight: 500, fontSize: "12px",
+              letterSpacing: "0.08em", textTransform: "uppercase",
+              transition: "border-color 0.15s",
+            }}
+              onMouseOver={e => e.currentTarget.style.borderColor = "var(--muted)"}
+              onMouseOut={e => e.currentTarget.style.borderColor = "var(--border)"}
+            >
+              Tjänster
+            </a>
           </div>
-
-          <div className="rounded-2xl p-8 flex flex-col" style={{ background: "#0d0d1a", border: "1px solid #1a1a2e" }}>
-            <div className="text-3xl mb-4">🗂️</div>
-            <h3 className="text-xl font-bold mb-3">Datastrukturering</h3>
-            <p style={{ color: "#9ca3af" }} className="mb-6 flex-1 leading-relaxed">
-              Rörig, inkonsekvent data som hindrar er från att använda AI. Vi städar, strukturerar
-              och dokumenterar så att ni kan börja dra nytta av er information.
-            </p>
-            <div className="mt-auto">
-              <div className="text-2xl font-bold mb-1">10 000 – 20 000 kr</div>
-              <div className="text-sm mb-4" style={{ color: "#6b7280" }}>Fast pris · Leverans 1–2 veckor</div>
-              <a
-                href="#kontakt"
-                className="block text-center py-3 rounded-xl text-sm font-medium"
-                style={{ background: "#1a1a2e", color: "#a78bfa", border: "1px solid #2d2d4e" }}
-              >
-                Kom igång →
-              </a>
-            </div>
-          </div>
-
         </div>
       </section>
 
-      {/* OM OSS */}
-      <section id="om" className="py-24 px-6" style={{ background: "#080810" }}>
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-4xl font-bold mb-6">Varför Sintari?</h2>
-            <p style={{ color: "#9ca3af" }} className="text-lg mb-6 leading-relaxed">
-              Vi är ett litet, fokuserat AI-konsultbolag baserat i Töreboda. Vi jobbar inte med
-              stora, dyra implementationsprojekt som tar månader — vi levererar snabbt, konkret värde
-              utan onödiga mellanhänder.
-            </p>
-            <p style={{ color: "#9ca3af" }} className="text-lg leading-relaxed">
-              Vår specialitet är att ta er befintliga data och kunskap och göra den tillgänglig
-              och användbar med modern AI-teknik.
-            </p>
+      {/* ─── MARQUEE ─── */}
+      <div style={{
+        overflow: "hidden", borderBottom: "1px solid var(--border)",
+        padding: "20px 0",
+      }}>
+        <div className="marquee-track" style={{ display: "flex", gap: "32px", width: "max-content" }}>
+          {marqueeItems.map((item, i) => (
+            <span key={i} style={{
+              fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase",
+              color: item === "·" ? "var(--border)" : "var(--muted)",
+              whiteSpace: "nowrap",
+            }}>{item}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* ─── STATS ─── */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+        borderBottom: "1px solid var(--border)",
+      }}>
+        {[
+          { value: "2–6", label: "Veckor till leverans" },
+          { value: "Fast", label: "Pris, inga överraskningar" },
+          { value: "3", label: "Fokuserade tjänster" },
+          { value: "Lokal", label: "Konsult i Skaraborg" },
+        ].map((s, i, arr) => (
+          <div key={i} style={{
+            padding: "clamp(28px, 4vw, 48px) clamp(24px, 3vw, 40px)",
+            borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
+          }}>
+            <div style={{
+              fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900,
+              letterSpacing: "-0.03em", color: "var(--fg)", lineHeight: 1,
+              marginBottom: "8px",
+            }}>{s.value}</div>
+            <div style={{ fontSize: "12px", color: "var(--muted)", letterSpacing: "0.04em" }}>{s.label}</div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { num: "2–6", label: "veckor till leverans" },
-              { num: "Fast", label: "pris, inga överraskningar" },
-              { num: "100%", label: "fokus på ert problem" },
-              { num: "Lokal", label: "konsult i Skaraborg" },
-            ].map((item) => (
-              <div key={item.label} className="rounded-xl p-6" style={{ background: "#0d0d1a", border: "1px solid #1a1a2e" }}>
-                <div className="text-2xl font-bold mb-1" style={{ color: "#a78bfa" }}>{item.num}</div>
-                <div className="text-sm" style={{ color: "#9ca3af" }}>{item.label}</div>
+        ))}
+      </div>
+
+      {/* ─── SERVICES ─── */}
+      <section id="tjanster" style={{
+        padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)",
+        borderBottom: "1px solid var(--border)",
+      }}>
+        <div style={{
+          display: "flex", alignItems: "baseline", justifyContent: "space-between",
+          marginBottom: "clamp(48px, 7vh, 80px)",
+          paddingBottom: "24px", borderBottom: "1px solid var(--border)",
+        }}>
+          <h2 style={{
+            fontSize: "clamp(13px, 2vw, 15px)", fontWeight: 600,
+            letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted)",
+          }}>Tjänster</h2>
+          <span style={{ fontSize: "12px", color: "var(--muted)", letterSpacing: "0.06em" }}>
+            Tre avgränsade leveranser
+          </span>
+        </div>
+
+        <div>
+          {services.map((s, i) => (
+            <div
+              key={i}
+              onMouseEnter={() => setHoveredService(i)}
+              onMouseLeave={() => setHoveredService(null)}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "clamp(40px, 6vw, 72px) 1fr auto",
+                gap: "clamp(16px, 3vw, 40px)",
+                padding: "clamp(28px, 4vh, 44px) 0",
+                borderBottom: "1px solid var(--border)",
+                cursor: "default",
+                transition: "background 0.2s",
+                background: hoveredService === i ? "rgba(212,245,60,0.02)" : "transparent",
+              }}
+            >
+              <div style={{
+                fontSize: "12px", color: "var(--muted)", paddingTop: "6px",
+                letterSpacing: "0.06em", transition: "color 0.2s",
+                ...(hoveredService === i && { color: "var(--accent)" }),
+              }}>{s.index}</div>
+
+              <div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: "24px", marginBottom: "16px", flexWrap: "wrap" }}>
+                  <h3 style={{
+                    fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 800,
+                    letterSpacing: "-0.02em", lineHeight: 1.1,
+                    transition: "color 0.2s",
+                    ...(hoveredService === i && { color: "var(--accent)" }),
+                  }}>{s.title}</h3>
+                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                    {s.tags.map(tag => (
+                      <span key={tag} style={{
+                        fontSize: "11px", padding: "3px 10px",
+                        border: "1px solid var(--border)",
+                        color: "var(--muted)", letterSpacing: "0.06em",
+                        transition: "border-color 0.2s",
+                        ...(hoveredService === i && { borderColor: "rgba(212,245,60,0.3)" }),
+                      }}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+                <p style={{
+                  fontSize: "clamp(13px, 1.5vw, 15px)", color: "var(--muted)",
+                  lineHeight: 1.75, maxWidth: "56ch",
+                }}>{s.desc}</p>
               </div>
-            ))}
+
+              <div style={{ textAlign: "right", paddingTop: "6px", flexShrink: 0 }}>
+                <div style={{
+                  fontSize: "clamp(14px, 1.5vw, 17px)", fontWeight: 700,
+                  marginBottom: "4px", whiteSpace: "nowrap",
+                }}>{s.price}</div>
+                <div style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "20px", whiteSpace: "nowrap" }}>{s.duration}</div>
+                <a href="#kontakt" style={{
+                  display: "inline-flex", alignItems: "center", gap: "6px",
+                  fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase",
+                  color: hoveredService === i ? "var(--accent)" : "var(--muted)",
+                  borderBottom: `1px solid ${hoveredService === i ? "var(--accent)" : "transparent"}`,
+                  paddingBottom: "2px", transition: "color 0.2s, border-color 0.2s",
+                }}>
+                  Kom igång <span>→</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── OM ─── */}
+      <section id="om" style={{
+        padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)",
+        borderBottom: "1px solid var(--border)",
+      }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))",
+          gap: "clamp(48px, 8vw, 100px)",
+        }}>
+          <div>
+            <p style={{
+              fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase",
+              color: "var(--muted)", marginBottom: "40px",
+            }}>Om Sintari</p>
+            <h2 style={{
+              fontSize: "clamp(32px, 5vw, 58px)", fontWeight: 900,
+              letterSpacing: "-0.03em", lineHeight: 1.05,
+              marginBottom: "32px",
+            }}>
+              Ingen onödig<br />
+              komplexitet.<br />
+              <span style={{ color: "var(--accent)" }}>Bara resultat.</span>
+            </h2>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: "24px" }}>
+            <p style={{ fontSize: "clamp(14px, 1.6vw, 16px)", color: "var(--muted)", lineHeight: 1.85 }}>
+              Sintari är ett AI-konsultbolag i Töreboda. Vi jobbar inte med mångelånga
+              projekt med osäkert utfall — vi levererar avgränsade lösningar med fast
+              pris och tydlig tidslinje.
+            </p>
+            <p style={{ fontSize: "clamp(14px, 1.6vw, 16px)", color: "var(--muted)", lineHeight: 1.85 }}>
+              Vår erfarenhet ligger i RAG-system, datastädning och AI-automatisering —
+              tekniker som fungerar i produktion. Vi riktar oss till industri- och
+              tillverkningsföretag i Skaraborg och hela Sverige.
+            </p>
+            <div style={{ display: "flex", gap: "40px", paddingTop: "16px" }}>
+              {[["RAG", "Retrieval-Augmented Generation"], ["ETL", "Datastrukturering"], ["LLM", "Språkmodeller"]].map(([abbr, full]) => (
+                <div key={abbr}>
+                  <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--fg)", marginBottom: "4px" }}>{abbr}</div>
+                  <div style={{ fontSize: "11px", color: "var(--muted)" }}>{full}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* KONTAKT */}
-      <section id="kontakt" className="py-24 px-6 max-w-2xl mx-auto text-center">
-        <h2 className="text-4xl font-bold mb-4">Boka ett gratis samtal</h2>
-        <p style={{ color: "#9ca3af" }} className="text-lg mb-10">
-          30 minuter. Inga säljpitchar. Vi lyssnar på er situation och berättar ärligt
-          om vi kan hjälpa er.
-        </p>
-        <div className="rounded-2xl p-8 text-left" style={{ background: "#0d0d1a", border: "1px solid #1a1a2e" }}>
-          {status === "sent" ? (
-            <div className="text-center py-8">
-              <div className="text-4xl mb-4">✓</div>
-              <p className="text-lg font-semibold mb-2">Tack för din förfrågan!</p>
-              <p style={{ color: "#9ca3af" }}>Jimmy återkommer inom 24 timmar.</p>
+      {/* ─── KONTAKT ─── */}
+      <section id="kontakt" style={{
+        padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)",
+      }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))",
+          gap: "clamp(48px, 8vw, 100px)",
+          alignItems: "start",
+        }}>
+          <div>
+            <p style={{
+              fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase",
+              color: "var(--muted)", marginBottom: "40px",
+            }}>Kontakt</p>
+            <h2 style={{
+              fontSize: "clamp(32px, 5vw, 58px)", fontWeight: 900,
+              letterSpacing: "-0.03em", lineHeight: 1.05,
+              marginBottom: "32px",
+            }}>
+              Boka ett gratis<br />
+              30-minuterssamtal.
+            </h2>
+            <p style={{ fontSize: "clamp(14px, 1.6vw, 16px)", color: "var(--muted)", lineHeight: 1.85, marginBottom: "48px" }}>
+              Vi lyssnar på er situation och berättar ärligt om vi kan hjälpa er.
+              Inga säljpitchar, inga förpliktelser.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              {[
+                ["E-post", "jimmy@sintari.se", "mailto:jimmy@sintari.se"],
+                ["Plats", "Töreboda, Skaraborg", null],
+              ].map(([label, value, href]) => (
+                <div key={label as string}>
+                  <div style={{ fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)", marginBottom: "6px" }}>{label}</div>
+                  {href ? (
+                    <a href={href as string} style={{ fontSize: "16px", fontWeight: 500, transition: "color 0.15s" }}
+                      onMouseOver={e => e.currentTarget.style.color = "var(--accent)"}
+                      onMouseOut={e => e.currentTarget.style.color = "var(--fg)"}
+                    >{value}</a>
+                  ) : (
+                    <span style={{ fontSize: "16px", fontWeight: 500 }}>{value}</span>
+                  )}
+                </div>
+              ))}
             </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-4">
-                <input
-                  type="text"
-                  placeholder="Ditt namn *"
-                  required
-                  value={form.name}
-                  onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                  style={{ background: "#1a1a2e", border: "1px solid #2d2d4e", color: "#e8e8f0" }}
-                />
-                <input
-                  type="text"
-                  placeholder="Företag"
-                  value={form.company}
-                  onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                  style={{ background: "#1a1a2e", border: "1px solid #2d2d4e", color: "#e8e8f0" }}
-                />
-                <input
-                  type="email"
-                  placeholder="Din e-post *"
-                  required
-                  value={form.email}
-                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                  style={{ background: "#1a1a2e", border: "1px solid #2d2d4e", color: "#e8e8f0" }}
-                />
-                <textarea
-                  placeholder="Beskriv kortfattat vad ni brottas med (valfritt)"
-                  rows={4}
-                  value={form.message}
-                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
-                  style={{ background: "#1a1a2e", border: "1px solid #2d2d4e", color: "#e8e8f0" }}
-                />
+          </div>
+
+          {/* FORM */}
+          <div>
+            {status === "sent" ? (
+              <div style={{
+                padding: "clamp(40px, 6vw, 64px)",
+                border: "1px solid var(--border)",
+                display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "16px",
+              }}>
+                <div style={{ fontSize: "40px", fontWeight: 900, color: "var(--accent)", letterSpacing: "-0.03em" }}>Tack.</div>
+                <p style={{ color: "var(--muted)", fontSize: "15px", lineHeight: 1.7 }}>
+                  Din förfrågan är mottagen. Jimmy återkommer inom 24 timmar.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                {[
+                  { key: "name", label: "Namn", required: true, type: "text" },
+                  { key: "company", label: "Företag", required: false, type: "text" },
+                  { key: "email", label: "E-post", required: true, type: "email" },
+                ].map((field) => (
+                  <div key={field.key} style={{ marginBottom: 0, borderBottom: "1px solid var(--border)" }}>
+                    <div style={{
+                      display: "flex", justifyContent: "space-between",
+                      paddingTop: "20px", paddingBottom: "6px",
+                    }}>
+                      <label style={{ fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)" }}>
+                        {field.label}
+                      </label>
+                      {field.required && <span style={{ fontSize: "10px", color: "var(--muted)" }}>Krävs</span>}
+                    </div>
+                    <input
+                      type={field.type}
+                      required={field.required}
+                      value={form[field.key as keyof typeof form]}
+                      onChange={e => setForm(f => ({ ...f, [field.key]: e.target.value }))}
+                      style={{
+                        width: "100%", background: "transparent", border: "none", outline: "none",
+                        color: "var(--fg)", fontSize: "16px", paddingBottom: "20px",
+                        caretColor: "var(--accent)",
+                      }}
+                    />
+                  </div>
+                ))}
+
+                <div style={{ borderBottom: "1px solid var(--border)" }}>
+                  <label style={{ display: "block", fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)", padding: "20px 0 6px" }}>
+                    Meddelande
+                  </label>
+                  <textarea
+                    rows={4}
+                    placeholder="Beskriv kortfattat vad ni brottas med..."
+                    value={form.message}
+                    onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                    style={{
+                      width: "100%", background: "transparent", border: "none", outline: "none",
+                      color: "var(--fg)", fontSize: "15px", paddingBottom: "20px",
+                      resize: "none", caretColor: "var(--accent)",
+                    }}
+                  />
+                </div>
+
                 {status === "error" && (
-                  <p className="text-sm text-red-400">Något gick fel. Maila direkt: jimmy@sintari.se</p>
+                  <p style={{ color: "#ff5555", fontSize: "13px", marginTop: "16px" }}>
+                    Något gick fel. Maila <a href="mailto:jimmy@sintari.se" style={{ textDecoration: "underline" }}>jimmy@sintari.se</a> direkt.
+                  </p>
                 )}
+
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="w-full py-4 rounded-xl font-semibold text-base"
-                  style={{ background: "#7c3aed", color: "white", opacity: status === "sending" ? 0.7 : 1 }}
+                  style={{
+                    marginTop: "32px",
+                    display: "inline-flex", alignItems: "center", gap: "12px",
+                    padding: "16px 32px",
+                    background: "var(--accent)", color: "var(--bg)",
+                    border: "none", cursor: "pointer",
+                    fontWeight: 800, fontSize: "12px",
+                    letterSpacing: "0.1em", textTransform: "uppercase",
+                    transition: "opacity 0.15s",
+                    opacity: status === "sending" ? 0.6 : 1,
+                  }}
+                  onMouseOver={e => { if (status !== "sending") e.currentTarget.style.opacity = "0.85"; }}
+                  onMouseOut={e => { e.currentTarget.style.opacity = status === "sending" ? "0.6" : "1"; }}
                 >
-                  {status === "sending" ? "Skickar..." : "Skicka →"}
+                  {status === "sending" ? "Skickar..." : "Skicka förfrågan"}
+                  {status !== "sending" && <span style={{ fontSize: "16px" }}>→</span>}
                 </button>
-              </div>
-            </form>
-          )}
-          <p className="text-center text-sm mt-4" style={{ color: "#6b7280" }}>
-            Eller maila direkt:{" "}
-            <a href="mailto:jimmy@sintari.se" style={{ color: "#a78bfa" }}>jimmy@sintari.se</a>
-          </p>
+              </form>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="py-8 px-6 text-center text-sm" style={{ borderTop: "1px solid #1a1a2e", color: "#6b7280" }}>
-        <p>
-          © 2025 Sintari · Jimmy Berndtsson · Töreboda, Sverige ·{" "}
-          <a href="mailto:jimmy@sintari.se" style={{ color: "#9ca3af" }}>jimmy@sintari.se</a>
-        </p>
+      {/* ─── FOOTER ─── */}
+      <footer style={{
+        borderTop: "1px solid var(--border)",
+        padding: "28px clamp(24px, 5vw, 64px)",
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        flexWrap: "wrap", gap: "16px",
+      }}>
+        <span style={{ fontWeight: 800, fontSize: "13px", letterSpacing: "0.12em", textTransform: "uppercase" }}>Sintari</span>
+        <span style={{ fontSize: "12px", color: "var(--muted)" }}>© 2025 Jimmy Berndtsson · Töreboda</span>
+        <a href="mailto:jimmy@sintari.se" style={{
+          fontSize: "12px", color: "var(--muted)", transition: "color 0.15s",
+        }}
+          onMouseOver={e => e.currentTarget.style.color = "var(--fg)"}
+          onMouseOut={e => e.currentTarget.style.color = "var(--muted)"}
+        >jimmy@sintari.se</a>
       </footer>
 
-    </main>
+    </div>
   );
 }
