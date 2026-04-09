@@ -96,9 +96,12 @@ export default function Home() {
         background: "rgba(8,8,8,0.88)",
         backdropFilter: "blur(20px) saturate(180%)",
       }}>
-        <span style={{ fontWeight: 800, fontSize: "14px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          Sintari
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <img src="/logo.png" alt="Sintari Logo" style={{ height: "32px", width: "32px", objectFit: "contain", filter: "brightness(1.1)" }} />
+          <span style={{ fontWeight: 800, fontSize: "14px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+            Sintari
+          </span>
+        </div>
 
         <nav style={{ display: "flex", gap: "36px", fontSize: "13px", color: "var(--muted)" }}>
           {[["Tjänster", "#tjanster"], ["Om", "#om"], ["Kontakt", "#kontakt"]].map(([label, href]) => (
