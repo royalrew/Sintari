@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sintari — AI-konsult för svenska företag",
-  description: "Praktisk AI för industri och tillverkning. RAG-system, automatisering och datastrukturering med fast pris och tydlig leverans.",
+  title: "Sintari — Praktisk AI för företag i Skaraborg",
+  description: "Vi hjälper lokala företag i Skaraborg spara tid med smart AI. Inget krångel, bara verktyg som faktiskt gör nytta i vardagen.",
   openGraph: {
     title: "Sintari — AI-konsult för svenska företag",
     description: "Praktisk AI för industri och tillverkning.",

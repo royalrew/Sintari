@@ -34,33 +34,33 @@ export default function Home() {
       index: "01",
       icon: <Search size={28} strokeWidth={1.5} />,
       title: "AI-genomlysning",
-      sub: "Börja här — låg risk, direkt värde",
-      desc: "Vi sätter oss in i er verksamhet under en halv dag och levererar en skriftlig rapport: exakt var ni slösar tid idag, vad AI kan lösa och vad det skulle vara värt för er. Ni bestämmer sedan om ni vill gå vidare — ingen bindning.",
+      sub: "Hitta tidstjuvarna — låg risk",
+      desc: "Vi sätter oss ner en halvdag och jag går igenom hur ni jobbar. Ni får en konkret rapport som visar precis var ni kan spara tid med AI och vad det skulle kosta att fixa. Enkel start, ingen bindning.",
       price: "4 900 kr",
       duration: "Halvdag + rapport",
-      tags: ["Godkänns utan budgetmöte", "Klar inom en vecka", "Ingen bindning"],
+      tags: ["Fast pris", "Ingen bindning", "Klar på en vecka"],
       highlight: false,
     },
     {
       index: "02",
       icon: <Zap size={28} strokeWidth={1.5} />,
       title: "AI-pilot",
-      sub: "Bygg en konkret lösning",
-      desc: "Vi tar ett av de problem som genomlysningen identifierade och bygger en färdig lösning — ett verktyg era anställda faktiskt kan använda från dag ett. Fast pris, tydlig leverans, inga överraskningar.",
-      price: "35 000 – 55 000 kr",
+      sub: "Bli en referenskund — få rabatt",
+      desc: "Vi bygger en färdig lösning på ett av era problem. Just nu söker jag 3 lokala företag i Skaraborg som vill bli pilotkunder. Ni får ett kraftigt reducerat pris mot att jag får använda projektet som referens.",
+      price: "35 000 kr (Pilot-pris)",
       duration: "2–4 veckor",
-      tags: ["Fast pris", "Redo att använda", "Baseras på genomlysning"],
+      tags: ["Pilot-rabatt", "Referensprojekt", "Begränsat antal"],
       highlight: true,
     },
     {
       index: "03",
       icon: <BrainCircuit size={28} strokeWidth={1.5} />,
-      title: "Fullt AI-system",
-      sub: "AI som arbetar i hela verksamheten",
-      desc: "En komplett lösning — ett system där era anställda söker i egna dokument, rutiner automatiseras och data hålls strukturerad. Bygger vidare på piloten och skalas upp efter era behov.",
-      price: "75 000 – 120 000 kr",
-      duration: "4–8 veckor",
-      tags: ["Skräddarsytt", "Skalbart", "Långsiktig investering"],
+      title: "Digital Medarbetare",
+      sub: "AI som jobbar dygnet runt",
+      desc: "Ett komplett system som söker i era dokument, automatiserar era rutiner och sköter rörig datahantering. Som att anställa en extra person som aldrig sover och kan allt om ert företag.",
+      price: "Från 75 000 kr",
+      duration: "Skalbart",
+      tags: ["Skräddarsytt", "Automatisering", "Full support"],
       highlight: false,
     },
   ];
@@ -151,9 +151,9 @@ export default function Home() {
           }}>
             <PixelReveal
               lines={[
-                { text: "AI som", accent: false },
-                { text: "faktiskt", accent: true },
-                { text: "används.", accent: false },
+                { text: "Jimmy — din", accent: false },
+                { text: "AI-expert", accent: true },
+                { text: "i Skaraborg.", accent: false },
               ]}
               fontWeight={900}
               lineHeight={0.92}
@@ -169,9 +169,9 @@ export default function Home() {
               fontSize: "clamp(15px, 1.6vw, 18px)", color: "var(--muted)",
               maxWidth: "40ch", lineHeight: 1.8,
             }}>
-              Vi hjälper svenska företag spara tid på uppgifter som idag
-              görs manuellt, tar för lång tid eller kräver att folk frågar varandra.
-              Fast pris. Tydlig leverans. Inga konstigheter.
+              Jag hjälper lokala företag att trolla bort tråkigt pappersarbete och
+              krångliga sökningar i mappar. Inga flashiga säljargument — bara
+              AI-verktyg som faktiskt gör nytta i din vardag.
             </p>
 
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
@@ -238,7 +238,7 @@ export default function Home() {
             fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase",
             color: "rgba(212,245,60,0.5)",
           }}>
-            Neural · Live
+            Jimmy Berndtsson · Töreboda
           </div>
           <div style={{
             position: "absolute", top: "16px", right: "16px", zIndex: 4,
@@ -251,9 +251,31 @@ export default function Home() {
               display: "inline-block",
               animation: "pulse 2s ease infinite",
             }} />
-            <span style={{ fontSize: "9px", letterSpacing: "0.12em", color: "rgba(212,245,60,0.5)", textTransform: "uppercase" }}>Active</span>
+            <span style={{ fontSize: "9px", letterSpacing: "0.12em", color: "rgba(212,245,60,0.5)", textTransform: "uppercase" }}>Lokalt tillgänglig</span>
           </div>
-          <NeuralNet />
+          
+          {/* PHOTO PLACEHOLDER */}
+          <div style={{
+            position: "absolute", inset: 0,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: "radial-gradient(circle at center, rgba(212,245,60,0.05) 0%, transparent 70%)",
+            zIndex: 1
+          }}>
+             <div style={{
+                width: "240px", height: "240px",
+                border: "1px dashed var(--border)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "var(--muted)", fontSize: "12px", textAlign: "center",
+                padding: "20px"
+             }}>
+                [ Placeholder för bild på Jimmy ]<br/>
+                Här lägger vi din profilbild för maximalt förtroende
+             </div>
+          </div>
+
+          <div style={{ opacity: 0.3 }}>
+            <NeuralNet />
+          </div>
         </div>
       </section>
 
@@ -418,12 +440,12 @@ export default function Home() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: "0" }}>
             {[
-              { problem: "Vi lägger timmar på att leta i pärmar och gamla mappar", solution: "AI-sökning i era egna dokument och system" },
-              { problem: "Samma rapport byggs om manuellt varje vecka", solution: "Automatiserad rapportering utan manuellt arbete" },
-              { problem: "Kunderna ställer samma frågor om och om igen", solution: "Chatbot som svarar korrekt, dygnet runt" },
-              { problem: "Vår data är utspridd och rörig — svår att använda", solution: "Datastädning och strukturering för vidare analys" },
-              { problem: "Vi copy-pastar information mellan system varje dag", solution: "Automatiserat dataflöde mellan era verktyg" },
-              { problem: "Ny personal måste fråga seniors om allt", solution: "Intern kunskapsbas — AI som kan svara på era rutiner" },
+              { problem: "Jag letar i mappar och filer i timmar varje vecka", solution: "Sök i alla dina dokument samtidigt med en personlig AI" },
+              { problem: "Samma rapport eller offert byggs om manuellt varje gång", solution: "Automatisera framkastade utkast på sekunder" },
+              { problem: "Kunderna ringer om samma saker om och om igen", solution: "En smart chatbot som svarar rätt dygnet runt" },
+              { problem: "Vår data är rörig och ligger överallt", solution: "Städa upp och få ordning på informationen med AI" },
+              { problem: "Vi kopierar information mellan olika system manuellt", solution: "Flytta data automatiskt utan fel" },
+              { problem: "Jag önskar att jag hade en assistent för det tråkiga", solution: "Din egen digitala medarbetare som sköter 'skitjobbet'" },
             ].map((item, i) => (
               <div key={i} style={{
                 padding: "clamp(24px, 3vw, 36px)",
@@ -466,27 +488,27 @@ export default function Home() {
             <p style={{
               fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase",
               color: "var(--muted)", marginBottom: "40px",
-            }}>Om Sintari</p>
+            }}>Om mig</p>
             <h2 style={{
               fontSize: "clamp(32px, 5vw, 58px)", fontWeight: 900,
               letterSpacing: "-0.03em", lineHeight: 1.05,
               marginBottom: "32px",
             }}>
-              Ingen onödig<br />
-              komplexitet.<br />
-              <span style={{ color: "var(--accent)" }}>Bara resultat.</span>
+              Jimmy i Töreboda.<br />
+              Ingen jargong.<br />
+              <span style={{ color: "var(--accent)" }}>Bara nytta.</span>
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: "24px" }}>
             <p style={{ fontSize: "clamp(14px, 1.6vw, 16px)", color: "var(--muted)", lineHeight: 1.85 }}>
-              Sintari är ett AI-konsultbolag i Töreboda. Vi jobbar inte med
-              mångelånga projekt — vi levererar avgränsade lösningar med fast
-              pris och tydlig tidslinje. Ni vet vad ni betalar och vad ni får.
+              Jag startade Sintari för att jag ser hur mycket tid som slösas bort på
+              tråkiga, manuella uppgifter på lokala företag. Jag bor i Töreboda och
+              är din direkta kontakt — inga säljare, inget krångel.
             </p>
             <p style={{ fontSize: "clamp(14px, 1.6vw, 16px)", color: "var(--muted)", lineHeight: 1.85 }}>
-              Vi har byggt system som låter anställda söka i företagets egna dokument,
-              rensat upp rörig data och automatiserat tidskrävande manuella moment —
-              för industri- och tillverkningsföretag i Sverige.
+              Jag bygger lösningar som låter dig söka i egna dokument, rensar upp
+              rörig data och automatiserar det repetitiva. Allt med fast pris och
+              fokus på att du ska se värdet direkt.
             </p>
             <div style={{ display: "flex", gap: "32px", paddingTop: "16px", flexWrap: "wrap" }}>
               {[
@@ -503,6 +525,29 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── PILOT CASES (TESTIMONIAL PLACEHOLDER) ─── */}
+      <section style={{ padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)", borderBottom: "1px solid var(--border)", background: "rgba(212,245,60,0.02)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "clamp(48px, 7vh, 72px)", paddingBottom: "24px", borderBottom: "1px solid var(--border)" }}>
+            <h2 style={{ fontSize: "clamp(13px, 2vw, 15px)", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Pilotprojekt & Referenser
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px" }}>
+            {[1, 2].map((n) => (
+              <div key={n} style={{ border: "1px dashed var(--border)", padding: "40px", textAlign: "center", color: "var(--muted)" }}>
+                <p style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "16px" }}>Plats tillgänglig</p>
+                <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--fg)", marginBottom: "16px" }}>Bli min nästa referens</h3>
+                <p style={{ fontSize: "14px", lineHeight: 1.6, marginBottom: "24px" }}>
+                  Jag söker just nu företag i Skaraborg som vill implementera AI till ett kraftigt reducerat pris mot en skriftlig referens.
+                </p>
+                <a href="#kontakt" style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase" }}>Anmäl intresse →</a>
+              </div>
+            ))}
           </div>
         </div>
       </section>
