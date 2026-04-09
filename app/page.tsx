@@ -284,22 +284,29 @@ export default function Home() {
             <span style={{ fontSize: "9px", letterSpacing: "0.12em", color: "rgba(212,245,60,0.5)", textTransform: "uppercase" }}>Lokalt tillgänglig</span>
           </div>
           
-          {/* PHOTO PLACEHOLDER */}
+          {/* PHOTO PLACEHOLDER — THE CORE */}
           <div style={{
             position: "absolute", inset: 0,
             display: "flex", alignItems: "center", justifyContent: "center",
-            background: "radial-gradient(circle at center, rgba(212,245,60,0.05) 0%, transparent 70%)",
             zIndex: 1
           }}>
              <div style={{
-                width: "240px", height: "240px",
-                border: "1px dashed var(--border)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                color: "var(--muted)", fontSize: "12px", textAlign: "center",
-                padding: "20px"
+                width: "280px", height: "280px",
+                borderRadius: "50%",
+                border: "1px solid rgba(212,245,60,0.3)",
+                background: "rgba(255, 255, 255, 0.03)",
+                backdropFilter: "blur(12px) saturate(180%)",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                color: "var(--muted)", fontSize: "11px", textAlign: "center",
+                padding: "40px",
+                boxShadow: "0 0 40px rgba(212,245,60,0.08), inset 0 0 20px rgba(212,245,60,0.05)",
+                animation: "pulse 4s ease-in-out infinite",
              }}>
-                [ Placeholder för bild på Jimmy ]<br/>
-                Här lägger vi din profilbild för maximalt förtroende
+                <div style={{ marginBottom: "12px", color: "var(--accent)", opacity: 0.8 }}>
+                  <Zap size={24} />
+                </div>
+                [ Din bild här ]<br/>
+                <span style={{ marginTop: "8px", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase" }}>Kärnan i nätverket</span>
              </div>
           </div>
 
@@ -529,6 +536,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── PROCESSEN ─── */}
+      <section style={{ padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "clamp(48px, 7vh, 72px)", paddingBottom: "24px", borderBottom: "1px solid var(--border)" }}>
+            <h2 style={{ fontSize: "clamp(13px, 2vw, 15px)", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Processen
+            </h2>
+            <span style={{ fontSize: "12px", color: "var(--muted)" }}>Från första möte till full drift</span>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "40px" }}>
+            {[
+              { step: "01", title: "Genomlysning", desc: "Vi går igenom er verksamhet och hittar de största tidstjuvarna. Ni får en skriftlig offert med fast pris och tydlig ROI-kalkyl." },
+              { step: "02", title: "Pilot & Test", desc: "Vi bygger en första version av lösningen. Ni testar i verklig miljö. Betalning sker enkelt via faktura, Swish eller Stripe." },
+              { step: "03", title: "Skalning", desc: "När piloten fungerar rullar vi ut lösningen i hela verksamheten. Jag finns med som stöd hela vägen." }
+            ].map((p, i) => (
+              <div key={i} style={{ padding: "32px", border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}>
+                <div style={{ fontSize: "12px", color: "var(--accent)", fontWeight: 800, marginBottom: "16px" }}>STEG {p.step}</div>
+                <h3 style={{ fontSize: "20px", fontWeight: 800, marginBottom: "16px" }}>{p.title}</h3>
+                <p style={{ fontSize: "14px", color: "var(--muted)", lineHeight: 1.7 }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── SÄKERHET ─── */}
+      <section style={{ padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)", borderBottom: "1px solid var(--border)", background: "linear-gradient(to bottom, transparent, rgba(212,245,60,0.03))" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
+          <div style={{ display: "inline-flex", padding: "12px", borderRadius: "50%", background: "rgba(212,245,60,0.1)", marginBottom: "32px" }}>
+            <Bot size={32} color="var(--accent)" />
+          </div>
+          <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, marginBottom: "24px", letterSpacing: "-0.02em" }}>Din data är helig.</h2>
+          <p style={{ fontSize: "16px", color: "var(--muted)", lineHeight: 1.8, marginBottom: "40px" }}>
+            Många oroar sig för att AI ska läcka företagshemligheter. Med Sintari stannar din data hos dig. Jag använder Enterprise-lösningar som aldrig tränar på din information. Din kunskap förblir din, punkt slut.
+          </p>
+          <div style={{ display: "flex", justifyContent: "center", gap: "24px", flexWrap: "wrap", opacity: 0.6 }}>
+            <span style={{ fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase" }}>GDPR-Säkert</span>
+            <span style={{ fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase" }}>Ingen träning på din data</span>
+            <span style={{ fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase" }}>Lokal lagring</span>
+          </div>
+        </div>
+      </section>
+
       {/* ─── OM ─── */}
       <section id="om" style={{
         padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)",
@@ -751,18 +802,30 @@ export default function Home() {
       {/* ─── FOOTER ─── */}
       <footer style={{
         borderTop: "1px solid var(--border)",
-        padding: "28px clamp(24px, 5vw, 64px)",
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        flexWrap: "wrap", gap: "16px",
+        padding: "48px clamp(24px, 5vw, 64px)",
+        background: "rgba(255,255,255,0.01)"
       }}>
-        <span style={{ fontWeight: 800, fontSize: "13px", letterSpacing: "0.12em", textTransform: "uppercase" }}>Sintari</span>
-        <span style={{ fontSize: "12px", color: "var(--muted)" }}>© 2025 Jimmy Berndtsson · Töreboda</span>
-        <a href="mailto:jimmy@sintari.se" className="link-underline" style={{
-          fontSize: "12px", color: "var(--muted)", transition: "color 0.15s",
-        }}
-          onMouseOver={e => e.currentTarget.style.color = "var(--fg)"}
-          onMouseOut={e => e.currentTarget.style.color = "var(--muted)"}
-        >jimmy@sintari.se</a>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "40px", marginBottom: "40px" }}>
+          <div>
+            <span style={{ fontWeight: 800, fontSize: "16px", letterSpacing: "0.12em", textTransform: "uppercase", display: "block", marginBottom: "12px" }}>Sintari</span>
+            <p style={{ fontSize: "12px", color: "var(--muted)", maxWidth: "24ch" }}>Praktisk AI för företag i Skaraborg. Inget krångel, bara verktyg som gör nytta.</p>
+          </div>
+          <div>
+            <span style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--muted)", display: "block", marginBottom: "16px" }}>Betalning & Kontakt</span>
+            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
+              <span style={{ fontSize: "11px", padding: "4px 8px", border: "1px solid var(--border)", color: "var(--muted)" }}>Swish</span>
+              <span style={{ fontSize: "11px", padding: "4px 8px", border: "1px solid var(--border)", color: "var(--muted)" }}>Stripe</span>
+              <span style={{ fontSize: "11px", padding: "4px 8px", border: "1px solid var(--border)", color: "var(--muted)" }}>Faktura</span>
+            </div>
+          </div>
+        </div>
+        <div style={{ borderTop: "1px solid var(--border)", paddingTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
+           <span style={{ fontSize: "12px", color: "var(--muted)" }}>© 2025 Jimmy Berndtsson · Töreboda</span>
+           <div style={{ display: "flex", gap: "24px" }}>
+              <a href="mailto:jimmy@sintari.se" className="link-underline" style={{ fontSize: "12px", color: "var(--muted)" }}>Email</a>
+              <a href="#om" className="link-underline" style={{ fontSize: "12px", color: "var(--muted)" }}>Om</a>
+           </div>
+        </div>
       </footer>
 
     </div>
