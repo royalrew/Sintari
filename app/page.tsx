@@ -165,7 +165,7 @@ export default function Home() {
           }}>
             <PixelReveal
               lines={[
-                { text: "Jimmy — din", accent: false },
+                { text: "Jimmy", accent: false },
                 { text: "AI-expert", accent: true },
                 { text: "i Skaraborg.", accent: false },
               ]}
@@ -195,10 +195,18 @@ export default function Home() {
                 fontWeight: 800, fontSize: "12px",
                 letterSpacing: "0.08em", textTransform: "uppercase",
                 display: "inline-flex", alignItems: "center", gap: "10px",
-                transition: "opacity 0.15s",
+                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
-                onMouseOver={e => e.currentTarget.style.opacity = "0.88"}
-                onMouseOut={e => e.currentTarget.style.opacity = "1"}
+                onMouseOver={e => {
+                  e.currentTarget.style.opacity = "0.9";
+                  e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
+                  e.currentTarget.style.boxShadow = "0 8px 16px rgba(212,245,60,0.15)";
+                }}
+                onMouseOut={e => {
+                  e.currentTarget.style.opacity = "1";
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
               >
                 Gratis rådgivning
                 <span style={{ fontSize: "16px" }}>→</span>
@@ -208,10 +216,18 @@ export default function Home() {
                 borderWidth: "1px", borderStyle: "solid", borderColor: "var(--border)",
                 color: "var(--fg)", fontWeight: 500, fontSize: "12px",
                 letterSpacing: "0.08em", textTransform: "uppercase",
-                transition: "border-color 0.15s",
+                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
-                onMouseOver={e => e.currentTarget.style.borderColor = "var(--muted)"}
-                onMouseOut={e => e.currentTarget.style.borderColor = "var(--border)"}
+                onMouseOver={e => {
+                  e.currentTarget.style.borderColor = "var(--muted)";
+                  e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                }}
+                onMouseOut={e => {
+                  e.currentTarget.style.borderColor = "var(--border)";
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.background = "transparent";
+                }}
               >
                 Tjänster
               </a>
@@ -287,7 +303,7 @@ export default function Home() {
              </div>
           </div>
 
-          <div style={{ opacity: 0.3 }}>
+          <div style={{ position: "absolute", inset: 0, opacity: 0.35, zIndex: 0 }}>
             <NeuralNet />
           </div>
         </div>
