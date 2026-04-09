@@ -96,8 +96,8 @@ export default function Home() {
         background: "rgba(8,8,8,0.88)",
         backdropFilter: "blur(20px) saturate(180%)",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="/logo.png" alt="Sintari Logo" style={{ height: "32px", width: "32px", objectFit: "contain", filter: "brightness(1.1)" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <img src="/logo.png" alt="Sintari Logo" style={{ height: "40px", width: "40px", objectFit: "contain" }} />
           <span style={{ fontWeight: 800, fontSize: "14px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
             Sintari
           </span>
