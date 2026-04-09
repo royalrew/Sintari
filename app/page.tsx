@@ -63,6 +63,17 @@ export default function Home() {
       tags: ["Skräddarsytt", "Automatisering", "Full support"],
       highlight: false,
     },
+    {
+      index: "04",
+      icon: <Layers size={28} strokeWidth={1.5} />,
+      title: "Modern Webbnärvaro",
+      sub: "Snyggare än en byrå — snabbare",
+      desc: "Behöver ni en ny hemsida som faktiskt säljer? Jag bygger moderna, blixtsnabba sidor med AI-stöd. Samma kvalitet som en dyr webbyrå, men till en bråkdel av priset och leverans på dagar, inte månader.",
+      price: "Från 15 000 kr",
+      duration: "1 vecka",
+      tags: ["Modern design", "SEO-optimerat", "Fast pris"],
+      highlight: false,
+    },
   ];
 
   const marqueeItems = [
@@ -169,9 +180,9 @@ export default function Home() {
               fontSize: "clamp(15px, 1.6vw, 18px)", color: "var(--muted)",
               maxWidth: "40ch", lineHeight: 1.8,
             }}>
-              Jag hjälper lokala företag att trolla bort tråkigt pappersarbete och
-              krångliga sökningar i mappar. Inga flashiga säljargument — bara
-              AI-verktyg som faktiskt gör nytta i din vardag.
+              Jag hjälper lokala företag att trolla bort tråkigt pappersarbete och 
+              bygga moderna hemsidor som faktiskt drar in kunder. Inga flashiga 
+              säljargument — bara verktyg som gör nytta i din vardag.
             </p>
 
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
@@ -470,6 +481,31 @@ export default function Home() {
             }}>
               Berätta vad ni kämpar med — vi tar det därifrån →
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── AFFÄRSVÄRDE ─── */}
+      <section style={{ padding: "clamp(80px, 12vh, 140px) clamp(24px, 5vw, 64px)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "clamp(48px, 7vh, 72px)", paddingBottom: "24px", borderBottom: "1px solid var(--border)" }}>
+            <h2 style={{ fontSize: "clamp(13px, 2vw, 15px)", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Affärsvärde på ren svenska
+            </h2>
+            <span style={{ fontSize: "12px", color: "var(--muted)" }}>AI handlar om ROI — inget annat</span>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "60px" }}>
+            {[
+              { title: "Få dina helger tillbaka", desc: "Varför sitta med administration på söndagen? Jag automatiserar era tråkiga rutiner så att ni kan fokusera på det som faktiskt drar in pengar." },
+              { title: "Hitta allt på en sekund", desc: "Sluta leta i gamla PDF-filer och pärmar. Med AI-sökning hittar ni rätt svar i företagets samlade kunskap på en bråkdel av en sekund." },
+              { title: "Svara kunderna direkt", desc: "Kunder hatar att vänta. En AI-assistent kan svara på 80% av de vanligaste frågorna dygnet runt, så att ni aldrig missar en affär för att ni var upptagna." }
+            ].map((v, i) => (
+              <div key={i}>
+                <h3 style={{ fontSize: "20px", fontWeight: 800, marginBottom: "16px", color: "var(--fg)" }}>{v.title}</h3>
+                <p style={{ fontSize: "15px", color: "var(--muted)", lineHeight: 1.7 }}>{v.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
