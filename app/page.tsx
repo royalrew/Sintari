@@ -290,24 +290,39 @@ export default function Home() {
             display: "flex", alignItems: "center", justifyContent: "center",
             zIndex: 1
           }}>
-             <div style={{
-                width: "280px", height: "280px",
-                borderRadius: "50%",
-                border: "1px solid rgba(212,245,60,0.3)",
-                background: "rgba(255, 255, 255, 0.03)",
-                backdropFilter: "blur(12px) saturate(180%)",
-                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                color: "var(--muted)", fontSize: "11px", textAlign: "center",
-                padding: "40px",
-                boxShadow: "0 0 40px rgba(212,245,60,0.08), inset 0 0 20px rgba(212,245,60,0.05)",
-                animation: "pulse 4s ease-in-out infinite",
-             }}>
-                <div style={{ marginBottom: "12px", color: "var(--accent)", opacity: 0.8 }}>
-                  <Zap size={24} />
+                <div style={{
+                  width: "280px", height: "280px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  border: "1px solid rgba(212,245,60,0.3)",
+                  boxShadow: "0 0 40px rgba(212,245,60,0.12)",
+                }}>
+                  <img
+                    src="/jimmy.jpg"
+                    alt="Jimmy Berndtsson"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      filter: "grayscale(20%) contrast(1.1)",
+                    }}
+                  />
                 </div>
-                [ Din bild här ]<br/>
-                <span style={{ marginTop: "8px", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase" }}>Kärnan i nätverket</span>
-             </div>
+                <div style={{
+                  position: "absolute",
+                  bottom: "20px",
+                  background: "rgba(0,0,0,0.6)",
+                  backdropFilter: "blur(4px)",
+                  padding: "4px 12px",
+                  borderRadius: "100px",
+                  border: "1px solid rgba(212,245,60,0.2)",
+                  fontSize: "9px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--accent)",
+                }}>
+                  Kärnan i nätverket
+                </div>
           </div>
 
           <div style={{ position: "absolute", inset: 0, opacity: 0.35, zIndex: 0 }}>
